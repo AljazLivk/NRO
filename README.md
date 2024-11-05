@@ -1,2 +1,3 @@
-# NRO
-Napredna računalniška orodja
+# NAPREDNA RAČUNALNIŠKA ORODJA
+ALJAŽ LIVK
+23221052
