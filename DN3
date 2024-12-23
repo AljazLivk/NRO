@@ -1,0 +1,60 @@
+// 3. DOMAČA NALOGA 
+//  NAPREDNA RAČUNALNIŠKA ORODJA 
+// ALJAŽ OSKAR LIVK - 23221052 
+
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+// Funkcija za izračun arctan(x) z uporabo Taylorjeve vrste
+double calcAtan(double* x, int* N_steps) {
+    double result = 0.0;
+    for (int n = 0; n < *N_steps; ++n) {
+        double term = (pow(-1, n) * pow(*x, 2 * n + 1)) / (2 * n + 1);
+        result += term;
+    }
+    return result;
+}
+
+// Funkcija za izračun integrala z uporabo trapezne metode
+double trapezoidalIntegration(double omega, int n_steps, int taylor_steps) {
+    double a = 0.0;
+    double b = omega / 4.0;
+    double h = (b - a) / n_steps;
+    double integral = 0.0;
+
+    for (int i = 0; i <= n_steps; ++i) {
+        double x = a + i * h;
+        double exp_term = exp(3 * x); 
+        double atan_input = x * x;   
+        double atan_value = calcAtan(&atan_input, &taylor_steps);
+
+        double fx = exp_term * atan_value;
+
+        // Dodajanje prispevka k integralni vrednosti
+        if (i == 0 || i == n_steps) {
+            integral += fx; 
+        } else {
+            integral += 2 * fx; 
+        }
+    }
+
+    integral *= h / 2.0; 
+    return integral;
+}
+
+int main() {
+    // Vrednosti parametrov
+    double omega = M_PI;       
+    int n_steps = 1000;        
+    int taylor_steps = 10;     
+
+    // Izračun integrala
+    double result = trapezoidalIntegration(omega, n_steps, taylor_steps);
+
+    // Izpis rezultata
+    std::cout << std::fixed << std::setprecision(6);
+    std::cout << "Vrednost integrala je: " << result << std::endl;
+
+    return 0;
+}
